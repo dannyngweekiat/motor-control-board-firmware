@@ -29,7 +29,7 @@ DriveWheelVelocity DriveWheel::update()
     // Preparing all needed variables
     double difference = motor->getEncoderDifference();
     // Calculate RPM from encoder
-    double angularVelocity = angularVelocity = (2 * PI / (this->pulsePerRevolution * this->gearRatio)) / (motor->getEncoderTimeDifference() / 1000000.0);
+    double angularVelocity = (2 * PI / (this->pulsePerRevolution * this->gearRatio)) / (motor->getEncoderTimeDifference() / 1000000.0);
 
     if (this->fowardDriveDirection == MOTOR_FOWARD_DIRECTION_CCW)
         angularVelocity = -angularVelocity;
@@ -48,7 +48,7 @@ DriveWheelVelocity DriveWheel::update()
     this->motor->setDirection(output > 0 ? (this->fowardDriveDirection == MOTOR_DIRECTION_CW ? MOTOR_DIRECTION_CW : MOTOR_DIRECTION_CCW)
                                          : (this->fowardDriveDirection == MOTOR_DIRECTION_CCW ? MOTOR_DIRECTION_CW : MOTOR_DIRECTION_CCW));
     this->motor->setPWM(fabs(output));
-    
+
     // Reset PID if setPoint is 0.0 and angularVelocity is 0.0
     if (this->setPoint == 0.0 && angularVelocity == 0.0)
     {
