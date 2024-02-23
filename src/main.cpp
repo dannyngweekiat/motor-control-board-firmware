@@ -123,6 +123,7 @@ void setup()
 
   // IMU Initialization
   bool initialized = false;
+  int imuRetries = 0;
   while (!initialized)
   {
     icm.begin(Wire, 0);
@@ -131,6 +132,8 @@ void setup()
       delay(500);
     else
       initialized = true;
+    if (++imuRetries >= 4)
+      break;
   }
   // Startup Delay
   delay(250);
@@ -151,7 +154,7 @@ void loop()
   {
     if (updateRobotState(&state, ROBOT_EMERGENCY))
       Serial.println("E");
-    stopRobot();
+    stopRobot(); 
     // Switch Debounce
     delay(50);
   }
